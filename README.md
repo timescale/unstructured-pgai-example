@@ -1,4 +1,4 @@
-# Unstructured TimescaleDB
+# Unstructured + pgai + TimescaleDB
 
 This is a simple example of how to use Unstructured with TimescaleDB.
 
