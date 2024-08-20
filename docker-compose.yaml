@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  main:
+    image: timescale/timescaledb-ha:pg16.3-ts2.15.3-all
+    container_name: vec_playground
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data_main:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=vector_playground
+      - POSTGRES_USER=postgres
+    command: "postgres -c ai.ollama_host=http://host.docker.internal:11434"
+volumes:
+  main:
+    driver: local
+
