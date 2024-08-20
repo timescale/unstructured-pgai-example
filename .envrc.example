@@ -1,0 +1,11 @@
+export SQL_DB_TYPE=postgresql
+export PGUSER=postgres
+export PGPASSWORD=password
+export PGHOST=localhost
+export PGPORT=5432
+export PGDATABASE=vector_playground
+export UNSTRUCTURED_API_KEY=
+export UNSTRUCTURED_API_URL="https://api.unstructured.io/general/v0/general"
+export PG_URI="postgres://$PGUSER:$PGPASSWORD@$PGHOST:$PGPORT/$PGDATABASE"
+export OPENAI_API_KEY=
+export PGOPTIONS="-c ai.openai_api_key=$OPENAI_API_KEY"
