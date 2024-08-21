@@ -4,7 +4,7 @@ This is a simple example of how to use Unstructured with TimescaleDB.
 
 With this setup you can embed any document on your postgresql database and run queries on it.
 
-For now, run.sh just imports the document into TimescaleDB and vectorizes the text from description field.
+For now, import.sh just imports the document into TimescaleDB and vectorizes the text from description field.
 
 # Setup
 
@@ -33,13 +33,13 @@ Adjust other settings as needed for your specific use case.
 
 After setting up the environment variables, run `install.sh` to install the necessary dependencies.
 
-Run `run.sh` to import the data into TimescaleDB.
+Run `import.sh` to import the data into TimescaleDB.
 
 Example:
 
 ```bash
 ./install.sh
-./run.sh import/my/file.pdf
+./import.sh import/my/file.pdf
 ```
 
 # Database schema
@@ -60,10 +60,10 @@ ORDER BY embeddings <=> embeddings('your query') LIMIT 10;
 
 # Importing data from HTML
 
-You can use the run.sh script to import data from HTML files too.
+You can use the import.sh script to import data from HTML files too.
 
 ```bash
-./run.sh import/my/file.html
+./import.sh import/my/file.html
 ```
 
 In this case, if you don't have data files to play, I recommend you to use the unstructured project that contains a lot of data files to play with.
@@ -75,7 +75,7 @@ git clone https://github.com/Unstructured-IO/unstructured
 Then, you can run the following command to import the data from the HTML files:
 
 ```bash
-./run.sh ../unstructured/example-docs/example-10k.html
+./import.sh ../unstructured/example-docs/example-10k.html
 ```
 
 Now, with a 10k file, it will have an output like this:

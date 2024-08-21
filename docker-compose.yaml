@@ -12,7 +12,6 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=vector_playground
       - POSTGRES_USER=postgres
-    command: "postgres -c ai.ollama_host=http://host.docker.internal:11434"
 volumes:
   main:
     driver: local
