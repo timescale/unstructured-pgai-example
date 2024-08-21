@@ -168,6 +168,23 @@ vector_playground=# select text from elements where type = 'Title' and embedding
 (4 rows)
 ```
 
+# Fetching TimescaleDB documentation
+
+You can fetch the TimescaleDB documentation and insert it into the database using the `fetch_timescale_pages.py` script.
+
+```bash
+python fetch_timescale_pages.py
+```
+It will fetch the documentation from the TimescaleDB website and insert it into the database.
+
+Then, you can run a semantic search using the following SQL:
+
+```sql
+SELECT url, text FROM elements
+WHERE url ~ 'docs.timescale.com'
+ORDER BY embeddings <=> embeddings('install timescaledb-ha via docker') LIMIT 1;
+```
+
 # Extra resources
 
 - [Unstructured](https://unstructured.io/) is the company behind the Unstructured library.
