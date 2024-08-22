@@ -4,6 +4,8 @@ This is a simple example of how to use Unstructured with TimescaleDB.
 
 With this setup you can embed any document on your postgresql database and run queries on it.
 
+Watch an overview here: https://www.youtube.com/watch?v=_Qcp5JinCRI 🍿
+
 For now, import.sh just imports the document into TimescaleDB and vectorizes the text from description field.
 
 # Setup
@@ -168,9 +170,9 @@ vector_playground=# select text from elements where type = 'Title' and embedding
 (4 rows)
 ```
 
-# Fetching TimescaleDB documentation
+# Importing content from web pages
 
-You can fetch the TimescaleDB documentation and insert it into the database using the `fetch_timescale_pages.py` script.
+The other example fetches the TimescaleDB documentation and inserts into the database using the `fetch_timescale_pages.py` script.
 
 ```bash
 python fetch_timescale_pages.py
@@ -183,6 +185,28 @@ Then, you can run a semantic search using the following SQL:
 SELECT url, text FROM elements
 WHERE url ~ 'docs.timescale.com'
 ORDER BY embeddings <=> embeddings('install timescaledb-ha via docker') LIMIT 1;
+```
+
+# Importing content from PDF files
+
+Unstructured has a lot of data files to play with. If you have a PDF file, you can import it into the database using the following command:
+
+```
+./import.sh ../unstructured/example-docs/embedded-images.pdf
+```
+
+And, you can run a semantic search using the following SQL:
+
+```sql
+SELECT text
+FROM elements
+WHERE filename ~ 'embedded-images.pdf'
+ORDER BY embeddings <=> embedding('Hands Free') LIMIT 2 ;
+                    text
+---------------------------------------------------------------------------------------------------------
+ “HANDS-FREE” CARD: use (2/4)
+ Hands-free unlocking, when approaching the vehicle; With the card in access zone 3, the ve- hicle will unlock. Unlocking is indicated by one flash of the hazard warning lights and the indicator lights.
+(2 rows)
 ```
 
 # Extra resources
