@@ -28,6 +28,10 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 def process_page(url, visited_links):
+    # Avoid processing URLs with '#'
+    if '#' in url:
+        return
+
     if url in visited_links:
         return
 
@@ -100,9 +104,11 @@ def process_page(url, visited_links):
         for element in elements:
             for link in element.metadata.link_urls or []:
                 if link.startswith(timescale) or link.startswith("/"):
-                    if link.startswith("/") and not link.startswith("/#"):
+                    if link.startswith("/"):
                         link = timescale + link
-                    process_page(link, visited_links)
+                    # Avoid processing URLs with '#'
+                    if '#' not in link:
+                        process_page(link, visited_links)
 
     except Exception as e:
         print(f"Error processing {url}: {e}")
