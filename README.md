@@ -1,10 +1,10 @@
-# Unstructured + pgai + TimescaleDB
+# Unstructured + pgai
 
-This is a simple example of how to use Unstructured with TimescaleDB.
+This is a quick start to use Unstructured to ingest any document into PostgreSQL and run semantic search on it.
 
-With this setup you can embed any document on your postgresql database and run queries on it.
+With this setup, the document on your postgresql database will be vectorized and you can run semantic search on it.
 
-For now, import.sh just imports the document into TimescaleDB and vectorizes the text from description field.
+The [import.sh](import.sh) script imports the document into PostgreSQL and vectorizes the content of the document.
 
 ```mermaid
 sequenceDiagram
@@ -24,6 +24,12 @@ sequenceDiagram
     T->>U: Return relevant results
     U->>U: Analyze insights
 ```
+
+The best part of unstructured is that it can ingest a lot of different file types and structure the content of the file in a way that is easy to query.
+
+It supports csv, html, pdf, word, excel, image, markdown, and more.
+
+This example covers a generic ingest of any data file and also a python script to ingest a web page.
 
 # Setup
 
@@ -74,15 +80,6 @@ By default, the database schema is created using the `schema.sql` file.
 
 It creates a table `elements` that includes all the fields that Unstructured can extract from a document.
 
-
-# Running queries
-
-You can run a semantic search using the following SQL:
-
-```sql
-SELECT * FROM elements
-ORDER BY embeddings <=> embeddings('your query') LIMIT 10;
-```
 
 # Importing data from HTML
 
@@ -228,7 +225,7 @@ WHERE filename ~ 'embedded-images.pdf'
 ORDER BY embeddings <=> embedding('Hands Free') LIMIT 2 ;
                     text
 ---------------------------------------------------------------------------------------------------------
- “HANDS-FREE” CARD: use (2/4)
+ "HANDS-FREE" CARD: use (2/4)
  Hands-free unlocking, when approaching the vehicle; With the card in access zone 3, the ve- hicle will unlock. Unlocking is indicated by one flash of the hazard warning lights and the indicator lights.
 (2 rows)
 ```
@@ -241,7 +238,7 @@ ORDER BY embeddings <=> embedding('Hands Free') LIMIT 2 ;
 
 # Contributing
 
-This project is a simple example of how to use Unstructured with TimescaleDB and pgai.
+This project is a simple example of how to use Unstructured with PGAI.
 
 We welcome contributions to improve this project! Here are some ways you can contribute:
 
