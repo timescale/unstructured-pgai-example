@@ -1,7 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS ai CASCADE;
 
-DROP TABLE IF EXISTS elements CASCADE;
-
 -- Create or replace the function to embed content
 CREATE OR REPLACE FUNCTION embedding(content TEXT) RETURNS VECTOR AS $$
 DECLARE
@@ -15,8 +13,7 @@ BEGIN
 END;
 $$ IMMUTABLE LANGUAGE plpgsql;
 
-
-CREATE TABLE elements (
+CREATE TABLE IF NOT EXISTS elements (
     id UUID,
     element_id TEXT,
     text TEXT,
@@ -57,7 +54,3 @@ CREATE TABLE elements (
     regex_metadata TEXT,
     detection_class_prob DECIMAL
 );
-
-CREATE UNIQUE INDEX elements_id_date_created_idx ON elements (id, date_created);
-
-SELECT create_hypertable('elements', by_range('date_created', INTERVAL '1 day'), create_default_indexes => FALSE);

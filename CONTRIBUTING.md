@@ -1,14 +1,18 @@
 # Contributing Guidelines
 
-Thank you for your interest in contributing to our Unstructured TimescaleDB project! We welcome contributions from everyone and are grateful for any help you can offer.
+Thank you for your interest in contributing to our project!
+
+Timescale appreciates any help the community can provide to make the PostgreSQL ecosystem better.
+
+For general guidelines on how to contribute to Timescale, please see the [Timescale Contribution Guidelines](https://docs.timescale.com/about/latest/contribute-to-timescale/#contributing-to-timescale).
+
 
 ## How to Contribute
 
 1. Fork the repository and create your branch from `main`.
-2. If you've added code that should be tested, add tests.
-3. Ensure the test suite passes.
-4. Make sure your code lints.
-5. Issue that pull request!
+2. If you've added more examples, please document it in the README.md.
+3. Make sure your code lints.
+4. Issue that pull request!
 
 ## Reporting Bugs
 

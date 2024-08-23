@@ -8,6 +8,25 @@ Watch an overview here: https://www.youtube.com/watch?v=_Qcp5JinCRI 🍿
 
 For now, import.sh just imports the document into TimescaleDB and vectorizes the text from description field.
 
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant S as Unstructured
+    participant T as TimescaleDB
+    participant P as pgai
+
+    U->>S: Input raw documents
+    S->>S: Extract and structure data
+    S->>T: Store structured data
+    T->>P: Process text data
+    P->>P: Generate vector embeddings
+    P->>T: Store vector embeddings
+    U->>T: Query data
+    T->>T: Perform vector similarity search
+    T->>U: Return relevant results
+    U->>U: Analyze insights
+```
+
 # Setup
 
 Copy the `.envrc.example` file to `.envrc` and edit it to set the correct environment variables.
@@ -18,10 +37,17 @@ cp .envrc.example .envrc
 
 Open `.envrc` and set the correct environment variables. The file includes settings for:
 
-- TimescaleDB connection details
+- PostgreSQL connection details (for local setup or Timescale Cloud)
 - OpenAI API configuration
 - Unstructured API settings
 - Other project-specific settings
+
+For local setup, you can use a pre-built Docker container:
+https://github.com/timescale/pgai?tab=readme-ov-file#use-a-pre-built-docker-container
+
+For production use, we recommend using Timescale Cloud:
+https://github.com/timescale/pgai?tab=readme-ov-file#use-a-timescale-cloud-service
+Sign up for a free trial and enable the pgai extension for your service.
 
 Make sure to set the following key variables:
 
@@ -212,17 +238,18 @@ ORDER BY embeddings <=> embedding('Hands Free') LIMIT 2 ;
 # Extra resources
 
 - [Unstructured](https://unstructured.io/) is the company behind the Unstructured library.
-- [Timescale](https://www.timescale.com/) is the company behind TimescaleDB and pgai extensions.
 - [PGVector](https://github.com/pgvector/pgvector) is the vector extension for postgresql.
 - [pgai](https://github.com/timescale/pgai) is the ai extension for postgresql that can be used to run queries and create the vector embeddings.
 
 # Contributing
 
+This project is a simple example of how to use Unstructured with TimescaleDB and pgai.
+
 We welcome contributions to improve this project! Here are some ways you can contribute:
 
 1. Report bugs or suggest features by opening an issue.
 2. Submit pull requests to fix bugs or add new features.
-3. Improve documentation or add examples.
+3. Improve documentation or add more examples.
 4. Share your experience using the project with others.
 
 Before contributing, please read our contributing guidelines [CONTRIBUTING.md](CONTRIBUTING.md) for more information on our development process, coding standards, and how to submit pull requests.

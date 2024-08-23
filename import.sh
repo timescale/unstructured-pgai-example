@@ -11,14 +11,15 @@ page_name,link_urls,link_texts,sent_from,sent_to,subject,section,\
 header_footer_type,emphasized_text_contents,emphasized_text_tags,\
 text_as_html,regex_metadata,detection_class_prob"
 
+
 unstructured-ingest \
   local \
     --input-path "$*" \
+    --strategy fast \
     --output-dir local-output-to-SQL \
     --num-processes 2 \
     --verbose \
     --work-dir data \
-    --strategy fast \
     --partition-by-api \
     --api-key $UNSTRUCTURED_API_KEY \
     --partition-endpoint $UNSTRUCTURED_API_URL \

@@ -9,20 +9,10 @@ import traceback
 # nltk.download('punkt')
 
 # Database connection details
-DB_HOST = os.getenv('PGHOST')
-DB_PORT = os.getenv('PGPORT')
-DB_NAME = os.getenv('PGDATABASE')
-DB_USER = os.getenv('PGUSER')
-DB_PASSWORD = os.getenv('PGPASSWORD')
+PG_URI = os.getenv('PG_URI')
 
 # Create a connection to the database
-conn = psycopg2.connect(
-    host=DB_HOST,
-    port=DB_PORT,
-    dbname=DB_NAME,
-    user=DB_USER,
-    password=DB_PASSWORD
-)
+conn = psycopg2.connect(PG_URI)
 
 # Create a cursor
 cur = conn.cursor()
@@ -103,23 +93,24 @@ def process_page(url, visited_links):
         # Recursively process linked pages
         for element in elements:
             for link in element.metadata.link_urls or []:
-                if link.startswith(timescale) or link.startswith("/"):
+                if link.startswith(url) or link.startswith("/"):
                     if link.startswith("/"):
-                        link = timescale + link
+                        link = base_url+ link
                     # Avoid processing URLs with '#'
                     if '#' not in link:
                         process_page(link, visited_links)
 
     except Exception as e:
         print(f"Error processing {url}: {e}")
-        print("Stacktrace:")
-        traceback.print_exc()
         conn.rollback()
 
 # Main execution
-timescale = "https://docs.timescale.com"
+import sys
+
+default_url = "https://docs.timescale.com"
+base_url = sys.argv[1] if len(sys.argv) > 1 else default_url
 visited_links = set()
-process_page(timescale, visited_links)
+process_page(base_url, visited_links)
 
 # Close the cursor and connection
 cur.close()
