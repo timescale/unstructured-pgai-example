@@ -4,8 +4,6 @@ This is a simple example of how to use Unstructured with TimescaleDB.
 
 With this setup you can embed any document on your postgresql database and run queries on it.
 
-Watch an overview here: https://www.youtube.com/watch?v=_Qcp5JinCRI 🍿
-
 For now, import.sh just imports the document into TimescaleDB and vectorizes the text from description field.
 
 ```mermaid
