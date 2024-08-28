@@ -1,5 +1,6 @@
 from unstructured.partition.html import partition_html
 import os
+import urllib.parse
 import nltk
 import psycopg2
 from psycopg2.extras import execute_values
@@ -16,6 +17,11 @@ conn = psycopg2.connect(PG_URI)
 
 # Create a cursor
 cur = conn.cursor()
+
+# Fetch all distinct URLs from the database
+cur.execute("SELECT DISTINCT url FROM elements")
+visited_links = set(url[0] for url in cur.fetchall())
+
 
 def process_page(url, visited_links):
     # Avoid processing URLs with '#'
@@ -98,7 +104,8 @@ def process_page(url, visited_links):
                         link = base_url+ link
                     # Avoid processing URLs with '#'
                     if '#' not in link:
-                        process_page(link, visited_links)
+                        encoded_link = urllib.parse.quote(link, safe=':/')
+                        process_page(encoded_link, visited_links)
 
     except Exception as e:
         print(f"Error processing {url}: {e}")
@@ -109,8 +116,10 @@ import sys
 
 default_url = "https://docs.timescale.com"
 base_url = sys.argv[1] if len(sys.argv) > 1 else default_url
-visited_links = set()
-process_page(base_url, visited_links)
+if base_url in visited_links:
+    process_page(base_url, visited_links)
+else:
+    process_page(visited_links[-1], visited_links)
 
 # Close the cursor and connection
 cur.close()
