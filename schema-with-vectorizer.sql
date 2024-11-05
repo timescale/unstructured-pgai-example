@@ -1,7 +1,11 @@
 CREATE EXTENSION IF NOT EXISTS ai CASCADE;
 
+DROP TABLE elements cascade;
+TRUNCATE ai.vectorizer cascade;
+DROP TABLE IF EXISTS elements_embedding_oai_ada2_store ;
+
 CREATE TABLE IF NOT EXISTS elements (
-    id UUID,
+    id UUID PRIMARY KEY,
     element_id TEXT,
     text TEXT,
     type TEXT,
@@ -42,7 +46,7 @@ CREATE TABLE IF NOT EXISTS elements (
 );
 
 SELECT ai.create_vectorizer(
-    'public.elements'::regclass, destination => 'blogs_embedding_oai_ada2'
+    'public.elements'::regclass, destination => 'elements_embedding_oai_ada2'
   , embedding=>ai.embedding_openai('text-embedding-ada-002', 1536)
   , chunking=>ai.chunking_recursive_character_text_splitter('text')
   , formatting=>ai.formatting_python_template('type: $type, url: $url, chunk: $chunk')
