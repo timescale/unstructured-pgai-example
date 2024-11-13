@@ -10,7 +10,7 @@ The [import.sh](import.sh) script imports the document into PostgreSQL and vecto
 sequenceDiagram
     participant U as User
     participant S as Unstructured
-    participant T as TimescaleDB
+    participant T as PostgreSQL
     participant P as pgai
     participant O as pgai Vectorizer
 
