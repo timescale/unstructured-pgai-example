@@ -10,16 +10,19 @@ The [import.sh](import.sh) script imports the document into PostgreSQL and vecto
 sequenceDiagram
     participant U as User
     participant S as Unstructured
-    participant T as TimescaleDB
+    participant T as PostgreSQL
     participant P as pgai
+    participant O as pgai Vectorizer
 
     U->>S: Input raw documents
     S->>S: Extract and structure data
     S->>T: Store structured data
-    T->>P: Process text data
-    P->>P: Generate vector embeddings
-    P->>T: Store vector embeddings
+    P->>O: Configure pgai Vectorizer
+    T->>O: Process text data
+    O->>O: Generate vector embeddings
+    O->>T: Store vector embeddings
     U->>T: Query data
+    T->>P: Generate embedding for query data
     T->>T: Perform vector similarity search
     T->>U: Return relevant results
     U->>U: Analyze insights
