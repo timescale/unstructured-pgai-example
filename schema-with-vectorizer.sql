@@ -1,9 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS ai CASCADE;
 
-DROP TABLE elements cascade;
-TRUNCATE ai.vectorizer cascade;
-DROP TABLE IF EXISTS elements_embedding_oai_ada2_store ;
-
+-- Create the table for the elements (source table)
 CREATE TABLE IF NOT EXISTS elements (
     id UUID PRIMARY KEY,
     element_id TEXT,
@@ -45,9 +42,10 @@ CREATE TABLE IF NOT EXISTS elements (
     detection_class_prob DECIMAL
 );
 
+-- Create the pgai Vectorizer for the source table
 SELECT ai.create_vectorizer(
-    'public.elements'::regclass, destination => 'elements_embedding_oai_ada2'
-  , embedding=>ai.embedding_openai('text-embedding-ada-002', 1536)
+    'public.elements'::regclass
+  , embedding=>ai.embedding_openai('text-embedding-3-small', 1536)
   , chunking=>ai.chunking_recursive_character_text_splitter('text')
   , formatting=>ai.formatting_python_template('type: $type, url: $url, chunk: $chunk')
 );
