@@ -25,11 +25,10 @@ unstructured-ingest \
     --partition-endpoint $UNSTRUCTURED_API_URL \
     --metadata-include "$metadata_includes" \
     --additional-partition-args="{\"split_pdf_page\":\"true\", \"split_pdf_allow_failed\":\"true\", \"split_pdf_concurrency_level\": 15}" \
-  sql \
+  postgres \
     --db-type $SQL_DB_TYPE \
     --username $PGUSER \
     --password $PGPASSWORD \
     --host $PGHOST \
     --port $PGPORT \
     --database $PGDATABASE
-
